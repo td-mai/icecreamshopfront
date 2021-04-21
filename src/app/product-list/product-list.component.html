@@ -1,0 +1,79 @@
+<div>
+    <h2> Notre menu </h2>
+</div>
+ <div class="card-columns">
+    <div *ngFor="let p of products" class="card card-body">
+        <span class="float-right font-weight-bold">{{p.unit_price| number:'1.1-1'}} €</span>
+        <span class="float-right font-weight-bold">
+          <img src="{{ p.image }}" alt="{{p.flavor}}" width="100" height="100">
+        </span>
+
+        <h6 class="text-truncate">{{ p.flavor }}</h6>
+        <p class="small">{{ p.recipe }}</p>
+        <div *ngIf="p.remaining_quantity" class="float-left">
+          <form #f="ngForm" novalidate>
+          <div class="input-group input-group-sm">
+              <input [(ngModel)]="p.tmp_order_quantity"  type="number" name="input_{{p.id}}" id="input_{{p.id}}" class="form-control" min="0" max="{{p.remaining_quantity}}" value="0">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary btn-success btn-sm" type="button" id="btn_{{p.id}}"
+                        (click)="addProduct(p.id)">Add</button>
+              </div>
+          </div>
+          </form>
+
+        </div>
+        <p *ngIf="p.remaining_quantity == 0" class="text-danger float-left small">Ce produit n'est plus disponibe.</p>
+    </div>
+ </div>
+<div>
+  <h2>Votre panier</h2>
+</div>
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Flavor</th>
+        <th scope="col">Prix d'unité</th>
+        <th scope="col">Quantité</th>
+        <th scope="col">Prix Total </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p_order of current_order; let i = index">
+        <th scope="row">{{i + 1 }}</th>
+        <td>{{p_order.flavor}}</td>
+        <td>{{p_order.unit_price| number:'1.1-1'}} €</td>
+        <td>{{p_order.tmp_order_quantity}}</td>
+        <td>{{p_order.tmp_price| number:'1.1-1'}} €</td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <th>{{tmp_total_prix| number:'1.1-1'}} €</th>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="current_order.length > 0">
+    <form #f="ngForm" novalidate class="form-inline">
+      <div class="form-group mx-sm-3 mb-2">
+        <input type="text" id="inputName" placeholder="Votre nome" [(ngModel)]="client_name" name="inputName">
+      </div>
+      <button type="button" (click)="orderValide()" class="btn btn-primary mb-2">
+        Valider la commande
+      </button>
+    </form>
+  </div>
+  <div *ngIf="detailOrder && (detailOrder | json) != '{}'">
+    <div class="alert alert-success" role="alert">
+      <h4>Votre commande a été enregistrée.</h4>
+      <h4>Numéro : {{detailOrder.order_number}}</h4>
+      <h5>Prix total : {{detailOrder.total_price| number:'1.1-1'}} €</h5>
+    </div>
+
+  </div>
+</div>
+<div class="row mt-5 alert alert-danger" *ngIf="messageError">{{messageError}}</div>
+

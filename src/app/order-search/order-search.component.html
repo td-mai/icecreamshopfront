@@ -1,0 +1,64 @@
+<h2>Recherchez votre commande</h2>
+<div class="row">
+  <div class="col-6">
+
+      <form #f="ngForm" novalidate class="form-inline">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Votre numéro de commande" name="orderNumber" [(ngModel)]="orderNumber"
+           aria-label="Numéro de commande" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button" (click)="getOrder()">Recherche</button>
+          </div>
+        </div>
+      </form>
+
+
+  </div>
+  <div class="col-6"></div>
+</div>
+<div class="mb-5 col-md-12">
+</div>
+<div class="container" *ngIf="detailOrder !== undefined">
+  <div class="row">
+    <div class="col-3">Numéro de commande: </div><div class="col-9 font-weight-bold">{{detailOrder.order_number}}</div>
+  </div>
+  <div class="row">
+    <div class="col-3"> Nom du client: </div><div class="col-9"> {{detailOrder.client_name}}</div>
+  </div>
+  <div class="row">
+    <div class="col-3">Date:</div><div class="col-9"> {{detailOrder.order_date| date: 'HH:MM dd/mm/YYYY'}} </div>
+  </div>
+  <div class="row">
+    <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Flavor</th>
+        <th scope="col">Prix d'unité</th>
+        <th scope="col">Quantité</th>
+        <th scope="col">Prix Total </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p_order of detailOrder.product_orders; let i = index">
+        <th scope="row">{{i + 1 }}</th>
+        <td>{{p_order.product.flavor}}</td>
+        <td>{{p_order.product.unit_price| number:'1.1-1'}} €</td>
+        <td>{{p_order.quantity}}</td>
+        <td>{{p_order.price| number:'1.1-1'}} €</td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <th> {{detailOrder.total_price| number:'1.1-1'}} €</th>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+</div>
+
+<div class="row mt-5 alert alert-danger" *ngIf="messageError">{{messageError}}</div>
+
