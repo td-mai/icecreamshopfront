@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../services/order.service';
 import {detailOrder} from '../detailOrder';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-order-search',
@@ -12,6 +13,8 @@ export class OrderSearchComponent implements OnInit {
   orderNumber: string=""
   detailOrder: detailOrder
   messageError : string=""
+  imageRoot = environment.apiRoot;
+
   constructor(private orderService: OrderService) { }
 
   ngOnInit(): void {

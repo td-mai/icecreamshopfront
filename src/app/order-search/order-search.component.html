@@ -33,6 +33,7 @@
     <thead>
       <tr>
         <th scope="col">#</th>
+        <th></th>
         <th scope="col">Flavor</th>
         <th scope="col">Prix d'unité</th>
         <th scope="col">Quantité</th>
@@ -42,6 +43,7 @@
     <tbody>
       <tr *ngFor="let p_order of detailOrder.product_orders; let i = index">
         <th scope="row">{{i + 1 }}</th>
+        <td><img src="{{imageRoot}}{{ p_order.product.image }}" alt="{{p_order.product.flavor}}" width="50" height="50"></td>
         <td>{{p_order.product.flavor}}</td>
         <td>{{p_order.product.unit_price| number:'1.1-1'}} €</td>
         <td>{{p_order.quantity}}</td>
@@ -49,6 +51,7 @@
       </tr>
       <tr>
         <th scope="row"></th>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
